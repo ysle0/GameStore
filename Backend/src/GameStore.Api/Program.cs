@@ -29,5 +29,6 @@ List<Game> games =
 ];
 
 app.MapGet("/", () => "Welcome to the Game Store API!");
+app.MapGet("/games", () => games);
 
 app.Run();

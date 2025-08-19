@@ -1,1 +1,6 @@
+### index
 GET http://localhost:5169/
+
+
+### getAllGames
+GET http://localhost:5169/games
