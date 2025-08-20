@@ -30,5 +30,15 @@ List<Game> games =
 
 app.MapGet("/", () => "Welcome to the Game Store API!");
 app.MapGet("/games", () => games);
+app.MapGet("/games/{id}", (Guid id) =>
+{
+    Game? game = games.Find(g => g.Id == id);
+
+    if (game is null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(game);
+});
 
 app.Run();

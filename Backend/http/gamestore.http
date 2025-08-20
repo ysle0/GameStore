@@ -4,3 +4,8 @@ GET http://localhost:5169/
 
 ### getAllGames
 GET http://localhost:5169/games
+
+
+### get a game by id
+GET http://localhost:5169/games/722731aa-5de0-426a-86f0-326fbd160fc8
+
