@@ -2,10 +2,21 @@
 GET http://localhost:5169/
 
 
-### getAllGames
+### get all games
 GET http://localhost:5169/games
 
 
 ### get a game by id
 GET http://localhost:5169/games/722731aa-5de0-426a-86f0-326fbd160fc8
 
+
+### create a new game
+POST http://localhost:5169/games
+Content-Type: application/json
+
+{
+  "name": "The Legend of Zelda: Breath of the Wild",
+  "genre": "Action-Adventure",
+  "price": 59.99,
+  "releaseDate": "2017-03-03"
+}
