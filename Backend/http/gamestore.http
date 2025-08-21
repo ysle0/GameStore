@@ -20,3 +20,15 @@ Content-Type: application/json
   "price": 59.99,
   "releaseDate": "2017-03-03"
 }
+
+###
+PUT http://localhost:5169/games/b850b276-5a18-450a-8bf6-1f091ef55660
+Content-Type: application/json
+
+{
+  "name": "Call of Duty 6",
+  "genre": "FPS",
+  "price": 89.99,
+  "releaseDate": "2025-02-22"
+}
+
