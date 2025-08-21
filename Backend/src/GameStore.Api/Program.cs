@@ -5,8 +5,7 @@ const string GetGameEndPointName = "GetGame";
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-List<Game> games =
-[
+List<Game> games = [
     new Game {
         Id = Guid.NewGuid(),
         Name = "Street Fighter 11",
@@ -34,27 +33,25 @@ app.MapGet("/", () => "Welcome to the Game Store API!");
 
 app.MapGet("/games", () => games);
 
-app.MapGet("/games/{id}", (Guid id) =>
-{
-    Game? game = games.Find(g => g.Id == id);
+app.MapGet("/games/{id}", (Guid id) => {
+        Game? game = games.Find(g => g.Id == id);
 
-    if (game is null)
-    {
-        return Results.NotFound();
-    }
-    return Results.Ok(game);
-})
-.WithName(GetGameEndPointName);
+        if (game is null) {
+            return Results.NotFound();
+        }
 
-app.MapPost("/games", (Game game) =>
-{
-    game.Id = Guid.NewGuid();
-    games.Add(game);
-    return Results.CreatedAtRoute(
-        GetGameEndPointName,
-        new { id = game.Id },
-        game);
-});
+        return Results.Ok(game);
+    })
+    .WithName(GetGameEndPointName);
+
+app.MapPost("/games", (Game game) => {
+        game.Id = Guid.NewGuid();
+        games.Add(game);
+        return Results.CreatedAtRoute(
+            GetGameEndPointName,
+            new { id = game.Id },
+            game);
+    })
+    .WithParameterValidation();
 
 app.Run();
-
