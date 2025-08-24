@@ -51,8 +51,7 @@ app.MapPost("/games", (Game game) => {
             GetGameEndPointName,
             new { id = game.Id },
             game);
-    })
-    .WithParameterValidation();
+}).WithParameterValidation();
 
 app.MapPut("/games/{id}", (Guid id, Game updatedGame) => {
         Game? existingGame = games.Find(g => g.Id == id);
@@ -69,7 +68,6 @@ app.MapPut("/games/{id}", (Guid id, Game updatedGame) => {
         games[existingGameIndex] = existingGame;
 
         return Results.NoContent();
-    })
-    .WithParameterValidation();
+}).WithParameterValidation();
 
 app.Run();
