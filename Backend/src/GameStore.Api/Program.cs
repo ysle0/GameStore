@@ -45,29 +45,35 @@ app.MapGet("/games/{id}", (Guid id) => {
     .WithName(GetGameEndPointName);
 
 app.MapPost("/games", (Game game) => {
-        game.Id = Guid.NewGuid();
-        games.Add(game);
-        return Results.CreatedAtRoute(
-            GetGameEndPointName,
-            new { id = game.Id },
-            game);
+    game.Id = Guid.NewGuid();
+    games.Add(game);
+    return Results.CreatedAtRoute(
+        GetGameEndPointName,
+        new { id = game.Id },
+        game);
 }).WithParameterValidation();
 
 app.MapPut("/games/{id}", (Guid id, Game updatedGame) => {
-        Game? existingGame = games.Find(g => g.Id == id);
-        if (existingGame is null) {
-            return Results.NotFound();
-        }
+    Game? existingGame = games.Find(g => g.Id == id);
+    if (existingGame is null) {
+        return Results.NotFound();
+    }
 
-        existingGame.Name = updatedGame.Name;
-        existingGame.Genre = updatedGame.Genre;
-        existingGame.Price = updatedGame.Price;
-        existingGame.ReleaseDate = updatedGame.ReleaseDate;
-        int existingGameIndex = games.IndexOf(existingGame);
+    existingGame.Name = updatedGame.Name;
+    existingGame.Genre = updatedGame.Genre;
+    existingGame.Price = updatedGame.Price;
+    existingGame.ReleaseDate = updatedGame.ReleaseDate;
+    int existingGameIndex = games.IndexOf(existingGame);
 
-        games[existingGameIndex] = existingGame;
+    games[existingGameIndex] = existingGame;
 
-        return Results.NoContent();
+    return Results.NoContent();
 }).WithParameterValidation();
+
+app.MapDelete("/games/{id}", (Guid id) => {
+    games.RemoveAll(g => g.Id == id);
+
+    return Results.NoContent();
+});
 
 app.Run();

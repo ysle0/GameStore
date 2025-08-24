@@ -32,3 +32,7 @@ Content-Type: application/json
   "releaseDate": "2025-02-22"
 }
 
+###
+DELETE http://localhost:5169/games/f839d5dc-8b58-4429-b125-91e7e4e2d75b
+Content-Type: application/json
+
