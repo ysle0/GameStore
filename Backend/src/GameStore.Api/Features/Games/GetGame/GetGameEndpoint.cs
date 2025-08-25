@@ -5,11 +5,8 @@ using GameStore.Api.Models;
 namespace GameStore.Api.Features.Games.GetGame;
 
 public static class GetGameEndpoint {
-    public static void MapGetGame(
-        this IEndpointRouteBuilder app,
-        GameStoreData data
-    ) {
-        app.MapGet("/{id:guid}", (Guid id) => {
+    public static void MapGetGame(this IEndpointRouteBuilder app) {
+        app.MapGet("/{id:guid}", (Guid id, GameStoreData data) => {
             Game? game = data.GetGameById(id);
             if (game is null) {
                 return Results.NotFound();

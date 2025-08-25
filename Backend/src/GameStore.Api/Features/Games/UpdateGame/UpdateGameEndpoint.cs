@@ -4,11 +4,8 @@ using GameStore.Api.Models;
 namespace GameStore.Api.Features.Games.UpdateGame;
 
 public static class UpdateGameEndpoint {
-    public static void MapUpdateGame(
-        this IEndpointRouteBuilder app,
-        GameStoreData data
-    ) {
-        app.MapPut("/{id:guid}", (Guid id, UpdateGameDto gameDto) => {
+    public static void MapUpdateGame(this IEndpointRouteBuilder app) {
+        app.MapPut("/{id:guid}", (Guid id, UpdateGameDto gameDto, GameStoreData data) => {
             Game? existingGame = data.GetGameById(id);
             if (existingGame is null) {
                 return Results.BadRequest("Invalid Game ID");

@@ -5,11 +5,8 @@ using GameStore.Api.Features.Games.Constants;
 namespace GameStore.Api.Features.Games.CreateGame;
 
 public static class CreateGameEndpoint {
-    public static void MapCreateGame(
-        this IEndpointRouteBuilder app,
-        GameStoreData data
-    ) {
-        app.MapPost("/", (CreateNewGameDto gameDto) => {
+    public static void MapCreateGame(this IEndpointRouteBuilder app) {
+        app.MapPost("/", (CreateNewGameDto gameDto, GameStoreData data) => {
             Genre? genre = data.GetGenreById(gameDto.GenreId);
             if (genre is null) {
                 return Results.BadRequest("Invalid Genre ID");
