@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using GameStore.Api.Models;
 
 const string getGameEndPointName = "GetGame";
@@ -58,42 +59,83 @@ List<Game> games = [
     }
 ];
 
-app.MapGet("/", () => "Welcome to the Game Store API!");
+app.MapGet("/games", () => games.Select(g => new GameSummaryDto(
+    g.Id,
+    g.Name,
+    g.Genre.Name,
+    g.Price,
+    g.ReleaseDate
+)));
 
-app.MapGet("/games", () => games);
-
+// GetGameById
 app.MapGet("/games/{id}", (Guid id) => {
-        Game? game = games.Find(g => g.Id == id);
+    Game? game = games.Find(g => g.Id == id);
 
-        if (game is null) {
-            return Results.NotFound();
-        }
-
-        return Results.Ok(game);
-    })
-    .WithName(getGameEndPointName);
-
-app.MapPost("/games", (Game game) => {
-    game.Id = Guid.NewGuid();
-    games.Add(game);
-    return Results.CreatedAtRoute(
-        getGameEndPointName,
-        new { id = game.Id },
-        game);
-}).WithParameterValidation();
-
-app.MapPut("/games/{id}", (Guid id, Game updatedGame) => {
-    Game? existingGame = games.Find(g => g.Id == id);
-    if (existingGame is null) {
+    if (game is null) {
         return Results.NotFound();
     }
 
-    existingGame.Name = updatedGame.Name;
-    existingGame.Genre = updatedGame.Genre;
-    existingGame.Price = updatedGame.Price;
-    existingGame.ReleaseDate = updatedGame.ReleaseDate;
-    int existingGameIndex = games.IndexOf(existingGame);
+    return Results.Ok(
+        new GameDetailsDto(
+            game.Id,
+            game.Name,
+            game.Genre.Id,
+            game.Price,
+            game.ReleaseDate,
+            game.Description
+        ));
+}).WithName(getGameEndPointName);
 
+// POST /games - create a new game
+app.MapPost("/games", (CreateNewGameDto gameDto) => {
+    var genre = genres.Find(g => g.Id == gameDto.GenreId);
+    if (genre is null) {
+        return Results.BadRequest("Invalid Genre ID");
+    }
+
+    var newGame = new Game {
+        Id = Guid.NewGuid(),
+        Name = gameDto.Name,
+        Genre = genre,
+        Price = gameDto.Price,
+        ReleaseDate = gameDto.ReleaseDate,
+        Description = gameDto.Description
+    };
+
+    games.Add(newGame);
+    return Results.CreatedAtRoute(
+        getGameEndPointName,
+        new { id = newGame.Id },
+        new GameDetailsDto(
+            newGame.Id,
+            newGame.Name,
+            newGame.Genre.Id,
+            newGame.Price,
+            newGame.ReleaseDate,
+            newGame.Description
+        )
+    );
+}).WithParameterValidation();
+
+// PUT /games/{id} - update an existing game
+app.MapPut("/games/{id}", (Guid id, UpdateGameDto gameDto) => {
+    Game? existingGame = games.Find(g => g.Id == id);
+    if (existingGame is null) {
+        return Results.BadRequest("Invalid Game ID");
+    }
+
+    Genre? genre = genres.Find(g => g.Id == gameDto.GenreId);
+    if (genre is null) {
+        return Results.BadRequest("Invalid Genre ID");
+    }
+
+    existingGame.Name = gameDto.Name;
+    existingGame.Genre = genre;
+    existingGame.Price = gameDto.Price;
+    existingGame.ReleaseDate = gameDto.ReleaseDate;
+    existingGame.Description = gameDto.Description;
+
+    int existingGameIndex = games.IndexOf(existingGame);
     games[existingGameIndex] = existingGame;
 
     return Results.NoContent();
@@ -105,4 +147,42 @@ app.MapDelete("/games/{id}", (Guid id) => {
     return Results.NoContent();
 });
 
+// GET /genres
+app.MapGet("/genres", () =>
+    genres.Select(g => new GenreDto(g.Id, g.Name))
+);
+
 app.Run();
+
+public record GameDetailsDto(
+    Guid Id,
+    string Name,
+    Guid GenreId,
+    decimal Price,
+    DateOnly ReleaseDate,
+    string Description);
+
+public record GameSummaryDto(
+    Guid Id,
+    string Name,
+    string Genre,
+    decimal Price,
+    DateOnly ReleaseDate);
+
+public record GenreDto(Guid Id, string Name);
+
+public record CreateNewGameDto(
+    [Required] [StringLength(50)] string Name,
+    Guid GenreId,
+    [Range(1, 10_000)] decimal Price,
+    DateOnly ReleaseDate,
+    [Required] [StringLength(500)] string Description
+);
+
+public record UpdateGameDto(
+    [Required] [StringLength(50)] string Name,
+    Guid GenreId,
+    [Range(1, 10_000)] decimal Price,
+    DateOnly ReleaseDate,
+    [Required] [StringLength(500)] string Description
+);

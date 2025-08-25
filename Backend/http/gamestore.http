@@ -7,7 +7,7 @@ GET http://localhost:5169/games
 
 
 ### get a game by id
-GET http://localhost:5169/games/722731aa-5de0-426a-86f0-326fbd160fc8
+GET http://localhost:5169/games/a8048a2e-fcfc-44de-92ba-71816b1ff6ee
 
 
 ### create a new game
@@ -16,20 +16,22 @@ Content-Type: application/json
 
 {
   "name": "The Legend of Zelda: Breath of the Wild",
-  "genre": "Action-Adventure",
+  "genreId": "1EE90AA6-0FB2-4799-87C6-84A0C35D2510",
   "price": 59.99,
-  "releaseDate": "2017-03-03"
+  "releaseDate": "2017-03-03",
+  "description": "hello zelda!!"
 }
 
 ###
-PUT http://localhost:5169/games/b850b276-5a18-450a-8bf6-1f091ef55660
+PUT http://localhost:5169/games/ff190a5b-c20f-4833-8765-4e6e86265565
 Content-Type: application/json
 
 {
-  "name": "Call of Duty 6",
-  "genre": "FPS",
+  "name": "Street Fighter II Turbo",
+  "genreId": "1EE90AA6-0FB2-4799-87C6-84A0C35D2510",
   "price": 89.99,
-  "releaseDate": "2025-02-22"
+  "releaseDate": "2025-02-22",
+  "description": "updated description!!!"
 }
 
 ###
