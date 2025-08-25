@@ -8,7 +8,7 @@ public static class UpdateGameEndpoint {
         this IEndpointRouteBuilder app,
         GameStoreData data
     ) {
-        app.MapPut("/games/{id}", (Guid id, UpdateGameDto gameDto) => {
+        app.MapPut("/{id:guid}", (Guid id, UpdateGameDto gameDto) => {
             Game? existingGame = data.GetGameById(id);
             if (existingGame is null) {
                 return Results.BadRequest("Invalid Game ID");
