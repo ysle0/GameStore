@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:5169/games/ff190a5b-c20f-4833-8765-4e6e86265565
+PUT http://localhost:5169/games/8ebd002e-0db5-4c7c-afef-f084db766bf8
 Content-Type: application/json
 
 {
