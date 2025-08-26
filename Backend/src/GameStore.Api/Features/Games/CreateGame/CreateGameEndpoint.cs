@@ -15,13 +15,14 @@ public static class CreateGameEndpoint {
                 var newGame = new Game {
                     Name = gameDto.Name,
                     Genre = genre,
+                    GenreId = genre.Id,
                     Price = gameDto.Price,
                     ReleaseDate = gameDto.ReleaseDate,
                     Description = gameDto.Description
                 };
 
                 data.AddGame(newGame);
-                
+
                 logger.PrintGames();
 
                 var output = GameDetailDto.FromGame(newGame);

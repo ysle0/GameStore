@@ -9,7 +9,7 @@ public static class GetGamesEndpoint {
             .Select(g => new GetGameDto(
                 g.Id,
                 g.Name,
-                g.Genre.Name,
+                g.Genre!.Name,
                 g.Price,
                 g.ReleaseDate
             ))

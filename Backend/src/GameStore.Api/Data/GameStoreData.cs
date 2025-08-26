@@ -34,6 +34,7 @@ public class GameStoreData {
                 Id = Guid.NewGuid(),
                 Name = "Street Fighter II",
                 Genre = _genres[0],
+                GenreId = _genres[0].Id,
                 Price = 19.99m,
                 ReleaseDate = new DateOnly(1992, 7, 15),
                 Description =
@@ -43,6 +44,7 @@ public class GameStoreData {
                 Id = Guid.NewGuid(),
                 Name = "Final Fantasy XIV",
                 Genre = _genres[3],
+                GenreId = _genres[3].Id,
                 Price = 59.99m,
                 ReleaseDate = new DateOnly(2010, 9, 30),
                 Description =
@@ -52,12 +54,17 @@ public class GameStoreData {
                 Id = Guid.NewGuid(),
                 Name = "FIFA 23",
                 Genre = _genres[^1],
+                GenreId = _genres[^1].Id,
                 Price = 69.99m,
                 ReleaseDate = new DateOnly(2022, 9, 27),
                 Description =
                     "FIFA 23 is a 2022 sports video game developed and published by EA Sports. It is the third installment in the FIFA series, following FIFA 22 and FIFA 21, be the team and take a win!",
             }
         ];
+    }
+
+    public GameStoreData(List<Game> games) {
+        _games = games;
     }
 
     public IEnumerable<Game> GetAllGames() => _games;
