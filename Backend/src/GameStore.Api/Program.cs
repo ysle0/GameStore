@@ -5,7 +5,8 @@ using GameStore.Api.Features.Genres;
 var builder = WebApplication.CreateBuilder(args);
 
 // register services.
-builder.Services.AddTransient<GameStoreData>();
+builder.Services.AddSingleton<GameStoreData>();
+builder.Services.AddScoped<GameDataLogger>();
 
 var app = builder.Build();
 
