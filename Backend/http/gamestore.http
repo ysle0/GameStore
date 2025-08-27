@@ -7,7 +7,7 @@ GET http://localhost:5169/games
 
 
 ### get a game by id
-GET http://localhost:5169/games/de07b456-71c4-4d17-b5b5-9373468cdbfe
+GET http://localhost:5169/games/3563C3E1-C56E-4CC3-9F77-E48A9E60186A
 
 
 ### create a new game
@@ -23,14 +23,14 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:5169/games/8ebd002e-0db5-4c7c-afef-f084db766bf8
+PUT http://localhost:5169/games/3563C3E1-C56E-4CC3-9F77-E48A9E60186A
 Content-Type: application/json
 
 {
-  "name": "Street Fighter II Turbo",
-  "genreId": "1EE90AA6-0FB2-4799-87C6-84A0C35D2510",
+  "name": "Helldivers 2 - Updated",
+  "genreId": "48743F7C-B826-45A4-B7C2-240EFBF0CB09",
   "price": 89.99,
-  "releaseDate": "2025-02-22",
+  "releaseDate": "2025-06-12",
   "description": "updated description!!!"
 }
 
