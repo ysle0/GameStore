@@ -7,7 +7,7 @@ GET http://localhost:5169/games
 
 
 ### get a game by id
-GET http://localhost:5169/games/a8048a2e-fcfc-44de-92ba-71816b1ff6ee
+GET http://localhost:5169/games/de07b456-71c4-4d17-b5b5-9373468cdbfe
 
 
 ### create a new game
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "name": "Helldivers 2",
-  "genreId": "48743F7C-B826-45A4-B7C2-240EFB70CB09",
+  "genreId": "48743F7C-B826-45A4-B7C2-240EFBF0CB09",
   "price": 59.99,
   "releaseDate": "2024-07-13",
   "description": "save the galaxy from alien threats!!"

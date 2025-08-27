@@ -6,13 +6,13 @@ namespace GameStore.Api.Features.Games.GetGame;
 
 public static class GetGameEndpoint {
     public static void MapGetGame(this IEndpointRouteBuilder app) {
-        app.MapGet("/{id:guid}", (Guid id, GameStoreData data) => {
-            Game? game = data.GetGameById(id);
-            if (game is null) {
+        app.MapGet("/{id:guid}", (Guid id, GameStoreContext dbCtx) => {
+            Game? foundGame = dbCtx.Games.Find(id);
+            if (foundGame is null) {
                 return Results.NotFound();
             }
 
-            var dto = GameDetailDto.FromGame(game);
+            var dto = GameDetailDto.FromGame(foundGame);
             return Results.Ok(dto);
         }).WithName(EndpointNames.GetGame);
     }
