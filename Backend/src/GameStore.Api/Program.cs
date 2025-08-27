@@ -4,7 +4,6 @@ using GameStore.Api.Features.Genres;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 /*
  * What service lifetime to use for a dbContext?
  * - DbContext is designed to be used as a single Unit of Work.
