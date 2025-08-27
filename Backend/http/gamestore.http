@@ -38,3 +38,6 @@ Content-Type: application/json
 DELETE http://localhost:5169/games/cdc036da-0908-4c28-90b8-9be74e0f7cbd
 Content-Type: application/json
 
+
+###
+GET http://localhost:5169/genres

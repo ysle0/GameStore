@@ -1,5 +1,5 @@
-using GameStore.Api.Data;
 using GameStore.Api.Models;
+using AppContext = GameStore.Api.Data.AppContext;
 
 namespace GameStore.Api.Features.Games.UpdateGame;
 
@@ -8,7 +8,7 @@ public static class UpdateGameEndpoint {
         app.MapPut("/{id:guid}", (
             Guid id,
             UpdateGameDto gameDto,
-            GameStoreContext dbCtx
+            AppContext dbCtx
         ) => {
             Game? existingGame = dbCtx.Games.Find(id);
             if (existingGame is null) {

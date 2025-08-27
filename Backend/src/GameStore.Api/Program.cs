@@ -1,6 +1,7 @@
 using GameStore.Api.Data;
 using GameStore.Api.Features.Games;
 using GameStore.Api.Features.Genres;
+using AppContext = GameStore.Api.Data.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,14 +23,9 @@ var builder = WebApplication.CreateBuilder(args);
 //     options.UseSqlite(connString);
 // });
 
-var connString =
-    builder.Configuration.GetConnectionString("GameStore") ??
-    throw new Exception("No connection string found.");
+var connString = builder.Configuration.GetConnectionString("GameStore");
 
-builder.Services.AddSqlite<GameStoreContext>(connString);
-builder.Services.AddSingleton<GameStoreData>();
-builder.Services.AddTransient<GameDataLogger>();
-
+builder.Services.AddSqlite<AppContext>(connString);
 var app = builder.Build();
 
 app.MapGames();

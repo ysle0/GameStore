@@ -1,11 +1,11 @@
-using GameStore.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using AppContext = GameStore.Api.Data.AppContext;
 
 namespace GameStore.Api.Features.Games.GetGames;
 
 public static class GetGamesEndpoint {
     public static void MapGetGames(this IEndpointRouteBuilder app) {
-        app.MapGet("/", (GameStoreContext dbCtx) =>
+        app.MapGet("/", (AppContext dbCtx) =>
             dbCtx.Games
                 .Include(g => g.Genre)
                 .Select(g => new GetGameDto(

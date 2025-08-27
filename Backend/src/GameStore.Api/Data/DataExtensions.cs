@@ -11,16 +11,16 @@ public static class DataExtensions {
 
     public static void MigrateDb(this WebApplication app) {
         using var scope = app.Services.CreateScope();
-        GameStoreContext dbCtx = scope.ServiceProvider
-            .GetRequiredService<GameStoreContext>();
+        AppContext dbCtx = scope.ServiceProvider
+            .GetRequiredService<AppContext>();
 
         dbCtx.Database.Migrate();
     }
 
     public static void SeedDb(this WebApplication app) {
         using var scope = app.Services.CreateScope();
-        GameStoreContext dbCtx = scope.ServiceProvider
-            .GetRequiredService<GameStoreContext>();
+        AppContext dbCtx = scope.ServiceProvider
+            .GetRequiredService<AppContext>();
 
         bool isDbEmpty = dbCtx.Games.Any();
         if (!isDbEmpty) {
