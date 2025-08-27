@@ -6,7 +6,7 @@ public class GameStoreData {
     readonly List<Genre> _genres = [
         new() {
             Id = new Guid("1EE90AA6-0FB2-4799-87C6-84A0C35D2510"),
-            Name = "Action",
+            Name = "Fighting",
         },
         new() {
             Id = new Guid("9cd66e98-1d83-400f-96a7-fac5bfe0416f"),
