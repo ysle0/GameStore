@@ -35,6 +35,6 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5169/games/f839d5dc-8b58-4429-b125-91e7e4e2d75b
+DELETE http://localhost:5169/games/cdc036da-0908-4c28-90b8-9be74e0f7cbd
 Content-Type: application/json
 
