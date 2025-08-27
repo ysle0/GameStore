@@ -15,11 +15,11 @@ POST http://localhost:5169/games
 Content-Type: application/json
 
 {
-  "name": "The Legend of Zelda: Breath of the Wild",
-  "genreId": "1EE90AA6-0FB2-4799-87C6-84A0C35D2510",
+  "name": "Helldivers 2",
+  "genreId": "48743F7C-B826-45A4-B7C2-240EFB70CB09",
   "price": 59.99,
-  "releaseDate": "2017-03-03",
-  "description": "hello zelda!!"
+  "releaseDate": "2024-07-13",
+  "description": "save the galaxy from alien threats!!"
 }
 
 ###
