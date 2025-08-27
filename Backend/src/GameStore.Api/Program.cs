@@ -1,11 +1,9 @@
 using GameStore.Api.Data;
 using GameStore.Api.Features.Games;
 using GameStore.Api.Features.Genres;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connString = "Data Source=file://gamestore.db";
 
 /*
  * What service lifetime to use for a dbContext?
@@ -24,6 +22,11 @@ var connString = "Data Source=file://gamestore.db";
 // builder.Services.AddDbContext<GameStoreContext>(options => {
 //     options.UseSqlite(connString);
 // });
+
+var connString =
+    builder.Configuration.GetConnectionString("GameStore") ??
+    throw new Exception("No connection string found.");
+
 builder.Services.AddSqlite<GameStoreContext>(connString);
 builder.Services.AddSingleton<GameStoreData>();
 builder.Services.AddTransient<GameDataLogger>();
