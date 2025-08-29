@@ -1,16 +1,20 @@
-using GameStore.Api.Models;
 using GameStore.Api.Features.Games.Constants;
-using AppContext = GameStore.Api.Data.AppContext;
+using GameStore.Api.Models;
+using GameStoreContext = GameStore.Api.Data.GameStoreContext;
 
 namespace GameStore.Api.Features.Games.CreateGame;
 
-public static class CreateGameEndpoint {
-    public static void MapCreateGame(this IEndpointRouteBuilder app) {
-        app.MapPost("/", (
+public static class CreateGameEndpoint
+{
+    public static void MapCreateGame(this IEndpointRouteBuilder app)
+    {
+        app.MapPost("/", async (
             CreateNewGameDto gameDto,
-            AppContext dbCtx
-        ) => {
-            var newGame = new Game {
+            GameStoreContext dbCtx
+        ) =>
+        {
+            var newGame = new Game
+            {
                 Name = gameDto.Name,
                 GenreId = gameDto.GenreId,
                 Price = gameDto.Price,
@@ -19,7 +23,7 @@ public static class CreateGameEndpoint {
             };
 
             dbCtx.Games.Add(newGame);
-            dbCtx.SaveChanges();
+            await dbCtx.SaveChangesAsync();
 
             var output = GameDetailDto.FromGame(newGame);
 

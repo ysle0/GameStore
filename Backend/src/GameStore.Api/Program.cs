@@ -1,7 +1,7 @@
 using GameStore.Api.Data;
 using GameStore.Api.Features.Games;
 using GameStore.Api.Features.Genres;
-using AppContext = GameStore.Api.Data.AppContext;
+using GameStoreContext = GameStore.Api.Data.GameStoreContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connString = builder.Configuration.GetConnectionString("GameStore");
 
-builder.Services.AddSqlite<AppContext>(connString);
+builder.Services.AddSqlite<GameStoreContext>(connString);
 var app = builder.Build();
 
 app.MapGames();

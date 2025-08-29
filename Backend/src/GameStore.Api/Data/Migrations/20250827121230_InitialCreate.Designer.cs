@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GameStore.Api.Data.Migrations
 {
-    [DbContext(typeof(AppContext))]
+    [DbContext(typeof(GameStoreContext))]
     [Migration("20250827121230_InitialCreate")]
     partial class InitialCreate
     {

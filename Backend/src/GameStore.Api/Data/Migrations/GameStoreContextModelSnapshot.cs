@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GameStore.Api.Data.Migrations
 {
-    [DbContext(typeof(AppContext))]
+    [DbContext(typeof(GameStoreContext))]
     partial class GameStoreContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

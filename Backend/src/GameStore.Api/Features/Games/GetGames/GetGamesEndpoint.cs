@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using AppContext = GameStore.Api.Data.AppContext;
+using GameStoreContext = GameStore.Api.Data.GameStoreContext;
 
 namespace GameStore.Api.Features.Games.GetGames;
 
-public static class GetGamesEndpoint {
-    public static void MapGetGames(this IEndpointRouteBuilder app) {
-        app.MapGet("/", (AppContext dbCtx) =>
+public static class GetGamesEndpoint
+{
+    public static void MapGetGames(this IEndpointRouteBuilder app)
+    {
+        app.MapGet("/", (GameStoreContext dbCtx) =>
             dbCtx.Games
                 .Include(g => g.Genre)
                 .Select(g => new GetGameDto(
@@ -16,6 +18,7 @@ public static class GetGamesEndpoint {
                     g.ReleaseDate
                 ))
                 .AsNoTracking()
+                .ToListAsync()
         );
     }
 }

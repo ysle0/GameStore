@@ -1,17 +1,21 @@
 using GameStore.Api.Models;
-using AppContext = GameStore.Api.Data.AppContext;
+using GameStoreContext = GameStore.Api.Data.GameStoreContext;
 
 namespace GameStore.Api.Features.Games.UpdateGame;
 
-public static class UpdateGameEndpoint {
-    public static void MapUpdateGame(this IEndpointRouteBuilder app) {
-        app.MapPut("/{id:guid}", (
+public static class UpdateGameEndpoint
+{
+    public static void MapUpdateGame(this IEndpointRouteBuilder app)
+    {
+        app.MapPut("/{id:guid}", async (
             Guid id,
             UpdateGameDto gameDto,
-            AppContext dbCtx
-        ) => {
-            Game? existingGame = dbCtx.Games.Find(id);
-            if (existingGame is null) {
+            GameStoreContext dbCtx
+        ) =>
+        {
+            Game? existingGame = await dbCtx.Games.FindAsync(id);
+            if (existingGame is null)
+            {
                 return Results.NotFound();
             }
 
@@ -20,8 +24,8 @@ public static class UpdateGameEndpoint {
             existingGame.Price = gameDto.Price;
             existingGame.ReleaseDate = gameDto.ReleaseDate;
             existingGame.Description = gameDto.Description;
-            
-            dbCtx.SaveChanges();
+
+            await dbCtx.SaveChangesAsync();
 
             return Results.NoContent();
         }).WithParameterValidation();

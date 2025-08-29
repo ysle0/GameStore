@@ -3,27 +3,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Data;
 
-public static class DataExtensions {
-    public static void InitializeDb(this WebApplication app) {
+public static class DataExtensions
+{
+    public static void InitializeDb(this WebApplication app)
+    {
         app.MigrateDb();
         app.SeedDb();
     }
 
-    public static void MigrateDb(this WebApplication app) {
+    public static void MigrateDb(this WebApplication app)
+    {
         using var scope = app.Services.CreateScope();
-        AppContext dbCtx = scope.ServiceProvider
-            .GetRequiredService<AppContext>();
+        GameStoreContext dbCtx = scope.ServiceProvider
+            .GetRequiredService<GameStoreContext>();
 
         dbCtx.Database.Migrate();
     }
 
-    public static void SeedDb(this WebApplication app) {
+    public static void SeedDb(this WebApplication app)
+    {
         using var scope = app.Services.CreateScope();
-        AppContext dbCtx = scope.ServiceProvider
-            .GetRequiredService<AppContext>();
+        GameStoreContext dbCtx = scope.ServiceProvider
+            .GetRequiredService<GameStoreContext>();
 
         bool isDbEmpty = dbCtx.Games.Any();
-        if (!isDbEmpty) {
+        if (!isDbEmpty)
+        {
             dbCtx.Genres.AddRange(
                 new Genre { Name = "Fighting" },
                 new Genre { Name = "Kids And Family", },
