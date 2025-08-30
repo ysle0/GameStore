@@ -1,8 +1,7 @@
-using System.Diagnostics;
 using GameStore.Api.Data;
 using GameStore.Api.Features.Games;
 using GameStore.Api.Features.Genres;
-using GameStore.Api.Shared;
+using GameStore.Api.Shared.ErrorHandler;
 using Microsoft.AspNetCore.HttpLogging;
 using GameStoreContext = GameStore.Api.Data.GameStoreContext;
 
@@ -26,10 +25,9 @@ var builder = WebApplication.CreateBuilder(args);
 //     options.UseSqlite(connString);
 // });
 
-var connString = builder.Configuration.GetConnectionString("GameStore");
 
 builder.Services.AddProblemDetails();
-builder.Services.AddSqlite<GameStoreContext>(connString);
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHttpLogging(opt =>
 {
     opt.LoggingFields =
@@ -39,6 +37,10 @@ builder.Services.AddHttpLogging(opt =>
         HttpLoggingFields.Duration;
     opt.CombineLogs = true;
 });
+
+var connString = builder.Configuration.GetConnectionString("GameStore");
+builder.Services.AddSqlite<GameStoreContext>(connString);
+
 var app = builder.Build();
 
 app.MapGames();

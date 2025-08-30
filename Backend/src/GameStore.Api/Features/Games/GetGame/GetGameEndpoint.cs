@@ -15,41 +15,14 @@ public static class GetGameEndpoint
             GameStoreContext dbCtx,
             ILogger<Program> logger) =>
         {
-            try
+            Game? foundGame = await dbCtx.Games.FindAsync(id);
+            if (foundGame is null)
             {
-                Game? foundGame = await FindGameAsync(id, dbCtx);
-                if (foundGame is null)
-                {
-                    return Results.NotFound();
-                }
-
-                var dto = GameDetailDto.FromGame(foundGame);
-                return Results.Ok(dto);
+                return Results.NotFound();
             }
-            catch (Exception e)
-            {
-                var traceId = Activity.Current?.TraceId;
-                logger.LogError(e, "Error while getting game with id {Machine}. TraceId: {TraceId}",
-                    Environment.MachineName,
-                    traceId);
 
-                return Results.Problem(
-                    title: "An error occurred while processing your request",
-                    statusCode: StatusCodes.Status500InternalServerError,
-                    extensions: new Dictionary<string, object?>()
-                    {
-                        { "traceId", traceId?.ToString() ?? ""},
-                    }
-                );
-            }
+            var dto = GameDetailDto.FromGame(foundGame);
+            return Results.Ok(dto);
         }).WithName(EndpointNames.GetGame);
-    }
-
-    private static async Task<Game>? FindGameAsync(
-        Guid id,
-         GameStoreContext dbCtx)
-    {
-        throw new SqliteException("The database is not available!", 14);
-        return await dbCtx.Games.FindAsync(id);
     }
 }
