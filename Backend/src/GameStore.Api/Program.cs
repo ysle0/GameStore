@@ -25,7 +25,6 @@ var builder = WebApplication.CreateBuilder(args);
 //     options.UseSqlite(connString);
 // });
 
-
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHttpLogging(opt =>
@@ -41,6 +40,9 @@ builder.Services.AddHttpLogging(opt =>
 var connString = builder.Configuration.GetConnectionString("GameStore");
 builder.Services.AddSqlite<GameStoreContext>(connString);
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 app.MapGames();
@@ -48,7 +50,12 @@ app.MapGenres();
 
 app.UseHttpLogging();
 
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
 {
     app.UseExceptionHandler();
 }
