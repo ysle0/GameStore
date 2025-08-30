@@ -28,10 +28,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connString = builder.Configuration.GetConnectionString("GameStore");
 
+builder.Services.AddProblemDetails();
 builder.Services.AddSqlite<GameStoreContext>(connString);
 builder.Services.AddHttpLogging(opt =>
 {
-    opt.LoggingFields = HttpLoggingFields.RequestMethod |
+    opt.LoggingFields =
+        HttpLoggingFields.RequestMethod |
         HttpLoggingFields.RequestPath |
         HttpLoggingFields.ResponseStatusCode |
         HttpLoggingFields.Duration;
@@ -43,6 +45,13 @@ app.MapGames();
 app.MapGenres();
 
 app.UseHttpLogging();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler();
+}
+
+app.UseStatusCodePages();
 
 await app.InitializeDbAsync();
 
