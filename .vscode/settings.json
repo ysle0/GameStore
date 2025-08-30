@@ -1,0 +1,4 @@
+{
+    "entityframework.project": "Backend/src/GameStore.Api",
+    "entityframework.startupProject": "Backend/src/GameStore.Api"
+}

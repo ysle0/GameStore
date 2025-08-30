@@ -3,11 +3,11 @@ GET http://localhost:5169/
 
 
 ### get all games
-GET http://localhost:5169/games
+GET http://localhost:5169/games?name=Street
 
 
 ### get a game by id
-GET http://localhost:5169/games/eee861ab-41b5-4f94-9501-150a9123e8ac
+GET http://localhost:5169/games/bde5ea36-c192-4fc3-a914-437468d6e4f1
 
 
 ### create a new game
@@ -22,6 +22,7 @@ Content-Type: application/json
   "description": "fight your way to the top!"
 }
 
+
 ###
 PUT http://localhost:5169/games/3563C3E1-C56E-4CC3-9F77-E48A9E60186A
 Content-Type: application/json
@@ -33,6 +34,7 @@ Content-Type: application/json
   "releaseDate": "2025-06-12",
   "description": "updated description!!!"
 }
+
 
 ###
 DELETE http://localhost:5169/games/cdc036da-0908-4c28-90b8-9be74e0f7cbd
