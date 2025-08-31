@@ -9,7 +9,8 @@ public static class GetGamesEndpoint
     {
         _ = app.MapGet("/", static async (
             GameStoreContext dbCtx,
-            [AsParameters] GetGamesDto request) =>
+            [AsParameters] GetGamesDto request,
+            CancellationToken ct) =>
         {
             int skipCount = (request.Page - 1) * request.Size;
 
@@ -29,6 +30,7 @@ public static class GetGamesEndpoint
             }
 
             var paginatedGames = await games
+                .AsNoTracking()
                 .OrderBy(g => g.Name)
                 .Skip(skipCount)
                 .Take(request.Size)
@@ -38,15 +40,13 @@ public static class GetGamesEndpoint
                     g.Name,
                     g.Genre!.Name,
                     g.Price,
-                    g.ReleaseDate
+                    g.ReleaseDate,
+                    g.ImageUri
                 ))
-                .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync(ct);
 
-            int totalGames = await games.CountAsync();
-            int totalPages = (int)Math.Ceiling(
-                totalGames / (double)request.Size
-            );
+            int totalGames = await games.CountAsync(cancellationToken: ct);
+            int totalPages = (int)Math.Ceiling(totalGames / (double)request.Size);
 
             return new GamesPageDto(totalPages, paginatedGames);
         });

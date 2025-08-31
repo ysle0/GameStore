@@ -71,7 +71,7 @@ public class FileUploader(
             return new FileUploadResult
             {
                 IsSuccess = true,
-                FilePath = fileUri.ToString()
+                FilePath = fileUri
             };
         }
         catch (Exception ex)
