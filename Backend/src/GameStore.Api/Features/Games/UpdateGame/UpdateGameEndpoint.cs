@@ -55,6 +55,8 @@ public static class UpdateGameEndpoint
 
             return Results.NoContent();
 
-        }).WithParameterValidation();
+        })
+        .WithParameterValidation()
+        .DisableAntiforgery();
     }
 }

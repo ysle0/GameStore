@@ -63,6 +63,8 @@ public static class CreateGameEndpoint
                 new { id = newGame.Id },
                 gameDetail
             );
-        }).WithParameterValidation();
+        })
+        .WithParameterValidation()
+        .DisableAntiforgery();
     }
 }
