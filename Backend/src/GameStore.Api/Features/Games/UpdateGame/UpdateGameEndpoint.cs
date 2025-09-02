@@ -18,7 +18,7 @@ public static class UpdateGameEndpoint
             CancellationToken ct
         ) =>
         {
-            Game? existingGame = await dbCtx.Games.FindAsync(id);
+            Game? existingGame = await dbCtx.Games.FindAsync([id], cancellationToken: ct);
             if (existingGame is null)
             {
                 return Results.NotFound();
