@@ -15,7 +15,7 @@ public static class GetGameEndpoint
             GameStoreContext dbCtx,
             ILogger<Program> logger,
             CancellationToken ct
-            ) =>
+        ) =>
         {
             Game? foundGame = await dbCtx.Games.FindAsync(
                 [id],

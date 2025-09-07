@@ -9,7 +9,8 @@ public record GameDetailDto(
     decimal Price,
     DateOnly ReleaseDate,
     string Description
-) {
+)
+{
     public static GameDetailDto FromGame(Game game) => new(
         game.Id,
         game.Name,

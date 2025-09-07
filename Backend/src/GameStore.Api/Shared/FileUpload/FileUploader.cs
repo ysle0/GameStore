@@ -4,9 +4,10 @@ public class FileUploader(
     IWebHostEnvironment webHostEnvironment,
     IHttpContextAccessor httpContextAccessor)
 {
-    readonly string[] permittedFileExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+    readonly string[] _permittedFileExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+
     public async Task<FileUploadResult> UploadFileAsync(
-        IFormFile file,
+        IFormFile? file,
         string folderName,
         CancellationToken ct = default)
     {
@@ -29,7 +30,7 @@ public class FileUploader(
         }
 
         string fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
-        if (!permittedFileExtensions.Contains(fileExtension))
+        if (!_permittedFileExtensions.Contains(fileExtension))
         {
             return new FileUploadResult
             {
@@ -76,7 +77,6 @@ public class FileUploader(
         }
         catch (Exception ex)
         {
-
             return new FileUploadResult
             {
                 IsSuccess = false,
