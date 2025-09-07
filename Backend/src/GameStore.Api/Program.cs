@@ -26,6 +26,10 @@ builder.Services.AddSqlite<GameStoreContext>(connString);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication()
+    .AddJwtBearer();
+
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<FileUploader>();
 
 var app = builder.Build();

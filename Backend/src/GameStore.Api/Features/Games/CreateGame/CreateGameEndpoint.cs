@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using GameStore.Api.Features.Games.Constants;
 using GameStore.Api.Models;
 using GameStore.Api.Shared.FileUpload;
@@ -11,60 +12,66 @@ public static class CreateGameEndpoint
     public static void MapCreateGame(this IEndpointRouteBuilder app)
     {
         app.MapPost("/", async (
-            ILogger<Program> logger,
-            [FromForm] CreateNewGameDto gameDto,
-            GameStoreContext dbCtx,
-            FileUploader fileUploader,
-            CancellationToken ct
-        ) =>
-        {
-            Uri imageUri = new(FileNames.DefaultImageUri);
-
-            IFormFile? imageFile = gameDto.ImageFile;
-            if (imageFile is not null)
+                ILogger<Program> logger,
+                [FromForm] CreateNewGameDto gameDto,
+                GameStoreContext dbCtx,
+                FileUploader fileUploader,
+                ClaimsPrincipal user,
+                CancellationToken ct
+            ) =>
             {
-                FileUploadResult uploadResult = await fileUploader.UploadFileAsync(
-                    imageFile,
-                    StorageNames.GameImagesFolder,
-                    ct);
-
-                if (uploadResult.IsSuccess)
+                if (user?.Identity?.IsAuthenticated == false)
                 {
-                    imageUri = uploadResult.FilePath!;
+                    return Results.Unauthorized();
                 }
-                else
+
+                Uri imageUri = new(FileNames.DefaultImageUri);
+
+                IFormFile? imageFile = gameDto.ImageFile;
+                if (imageFile is not null)
                 {
-                    return Results.BadRequest(new { message = uploadResult.ErrorMessage });
+                    FileUploadResult uploadResult = await fileUploader.UploadFileAsync(
+                        imageFile,
+                        StorageNames.GameImagesFolder,
+                        ct);
+
+                    if (uploadResult.IsSuccess)
+                    {
+                        imageUri = uploadResult.FilePath!;
+                    }
+                    else
+                    {
+                        return Results.BadRequest(new { message = uploadResult.ErrorMessage });
+                    }
                 }
-            }
 
-            var newGame = new Game
-            {
-                Name = gameDto.Name,
-                GenreId = gameDto.GenreId,
-                Price = gameDto.Price,
-                ReleaseDate = gameDto.ReleaseDate,
-                Description = gameDto.Description,
-                ImageUri = imageUri.ToString()
-            };
+                var newGame = new Game
+                {
+                    Name = gameDto.Name,
+                    GenreId = gameDto.GenreId,
+                    Price = gameDto.Price,
+                    ReleaseDate = gameDto.ReleaseDate,
+                    Description = gameDto.Description,
+                    ImageUri = imageUri.ToString()
+                };
 
-            dbCtx.Games.Add(newGame);
-            await dbCtx.SaveChangesAsync(ct);
+                dbCtx.Games.Add(newGame);
+                await dbCtx.SaveChangesAsync(ct);
 
-            logger.LogInformation(
-                "Created game {GameName} with price {GamePrice}",
-                newGame.Name,
-                newGame.Price);
+                logger.LogInformation(
+                    "Created game {GameName} with price {GamePrice}",
+                    newGame.Name,
+                    newGame.Price);
 
-            GameDetailDto gameDetail = GameDetailDto.FromGame(newGame);
+                GameDetailDto gameDetail = GameDetailDto.FromGame(newGame);
 
-            return Results.CreatedAtRoute(
-                EndpointNames.GetGame,
-                new { id = newGame.Id },
-                gameDetail
-            );
-        })
-        .WithParameterValidation()
-        .DisableAntiforgery();
+                return Results.CreatedAtRoute(
+                    EndpointNames.GetGame,
+                    new { id = newGame.Id },
+                    gameDetail
+                );
+            })
+            .WithParameterValidation()
+            .DisableAntiforgery();
     }
 }
