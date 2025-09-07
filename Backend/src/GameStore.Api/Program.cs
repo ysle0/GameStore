@@ -27,7 +27,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication()
-    .AddJwtBearer();
+    .AddJwtBearer(opt =>
+    {
+        opt.MapInboundClaims = false;
+    });
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<FileUploader>();
