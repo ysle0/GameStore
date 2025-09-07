@@ -8,7 +8,8 @@ public record GameDetailDto(
     Guid GenreId,
     decimal Price,
     DateOnly ReleaseDate,
-    string Description
+    string Description,
+    string LastUpdatedBy
 )
 {
     public static GameDetailDto FromGame(Game game) => new(
@@ -17,6 +18,7 @@ public record GameDetailDto(
         game.GenreId,
         game.Price,
         game.ReleaseDate,
-        game.Description
+        game.Description,
+        game.LastUpdatedBy
     );
 }

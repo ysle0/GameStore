@@ -4,11 +4,11 @@ using GameStore.Api.Models;
 namespace GameStore.Api.Features.Games.CreateGame;
 
 public record CreateNewGameDto(
-    [Required][StringLength(50)] string Name,
+    [Required] [StringLength(50)] string Name,
     Guid GenreId,
     [Range(1, 10_000)] decimal Price,
     DateOnly ReleaseDate,
-    [Required][StringLength(500)] string Description
+    [Required] [StringLength(500)] string Description
 )
 {
     public IFormFile? ImageFile { get; set; }
@@ -21,7 +21,8 @@ public record GameDetailDto(
     decimal Price,
     DateOnly ReleaseDate,
     string Description,
-    string ImageUri
+    string ImageUri,
+    string LastUpdatedBy
 )
 {
     public static GameDetailDto FromGame(Game game) => new(
@@ -31,6 +32,7 @@ public record GameDetailDto(
         game.Price,
         game.ReleaseDate,
         game.Description,
-        game.ImageUri
+        game.ImageUri,
+        game.LastUpdatedBy
     );
 }

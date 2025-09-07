@@ -35,13 +35,14 @@ public static class GetGamesEndpoint
                 .Skip(skipCount)
                 .Take(request.Size)
                 .Include(g => g.Genre)
-                .Select(g => new GameSummaryDto(
-                    g.Id,
-                    g.Name,
-                    g.Genre!.Name,
-                    g.Price,
-                    g.ReleaseDate,
-                    g.ImageUri
+                .Select(game => new GameSummaryDto(
+                    game.Id,
+                    game.Name,
+                    game.Genre!.Name,
+                    game.Price,
+                    game.ReleaseDate,
+                    game.ImageUri,
+                    game.LastUpdatedBy
                 ))
                 .ToListAsync(ct);
 

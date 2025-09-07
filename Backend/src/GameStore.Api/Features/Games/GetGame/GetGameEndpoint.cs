@@ -13,7 +13,6 @@ public static class GetGameEndpoint
         app.MapGet("/{id:guid}", async (
             Guid id,
             GameStoreContext dbCtx,
-            ILogger<Program> logger,
             CancellationToken ct
         ) =>
         {
