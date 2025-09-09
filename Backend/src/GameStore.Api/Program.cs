@@ -31,7 +31,10 @@ builder.Services.AddAuthentication()
     .AddJwtBearer(opt =>
     {
         opt.MapInboundClaims = false;
+        opt.TokenValidationParameters.RoleClaimType = "role";
     });
+
+builder.Services.AddAuthorizationBuilder();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<FileUploader>();
