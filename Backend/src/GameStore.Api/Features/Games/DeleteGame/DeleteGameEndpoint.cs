@@ -1,3 +1,4 @@
+using GameStore.Api.Shared.Authorization;
 using Microsoft.EntityFrameworkCore;
 using GameStoreContext = GameStore.Api.Data.GameStoreContext;
 
@@ -17,6 +18,7 @@ public static class DeleteGameEndpoint
                 .ExecuteDeleteAsync(cancellationToken: ct);
 
             return Results.NoContent();
-        });
+        })
+        .RequireAuthorization(Policies.AdminAccess);
     }
 }

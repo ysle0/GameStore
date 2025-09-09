@@ -2,6 +2,7 @@ using GameStore.Api.Data;
 using GameStore.Api.Features.Baskets;
 using GameStore.Api.Features.Games;
 using GameStore.Api.Features.Genres;
+using GameStore.Api.Shared.Authorization;
 using GameStore.Api.Shared.ErrorHandler;
 using GameStore.Api.Shared.FileUpload;
 using Microsoft.AspNetCore.HttpLogging;
@@ -33,8 +34,13 @@ builder.Services.AddAuthentication()
         opt.MapInboundClaims = false;
         opt.TokenValidationParameters.RoleClaimType = "role";
     });
-
-builder.Services.AddAuthorizationBuilder();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(Policies.UserAccess, authBuilder => { authBuilder.RequireClaim("scope", "gamestore_api.all"); })
+    .AddPolicy(Policies.AdminAccess, authBuilder =>
+    {
+        authBuilder.RequireClaim("scope", "gamestore_api.all");
+        authBuilder.RequireRole(Roles.Admin);
+    });
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<FileUploader>();

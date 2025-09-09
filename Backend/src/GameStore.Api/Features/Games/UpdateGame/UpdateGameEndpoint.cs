@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using GameStore.Api.Features.Games.Constants;
 using GameStore.Api.Models;
+using GameStore.Api.Shared.Authorization;
 using GameStore.Api.Shared.FileUpload;
 using Microsoft.AspNetCore.Mvc;
 using GameStoreContext = GameStore.Api.Data.GameStoreContext;
@@ -67,6 +68,7 @@ public static class UpdateGameEndpoint
                 return Results.NoContent();
             })
             .WithParameterValidation()
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .RequireAuthorization(Policies.AdminAccess);
     }
 }

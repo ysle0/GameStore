@@ -1,5 +1,6 @@
 using GameStore.Api.Data;
 using GameStore.Api.Models;
+using GameStore.Api.Shared.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Features.Baskets.UpsertBasket;
@@ -10,46 +11,47 @@ public static class UpsertBasketEndpoint
     {
         // PUT /baskets/{id}
         app.MapPut("/{userId:guid}", async (
-            Guid userId,
-            UpsertBasketDto upsertBasketDto,
-            GameStoreContext dbCtx,
-            CancellationToken ct) =>
-        {
-            var basket = await dbCtx
-                .CustomerBaskets
-                .Include(b => b.Items)
-                .FirstOrDefaultAsync(b => b.Id == userId, cancellationToken: ct);
-
-            if (basket is null)
+                Guid userId,
+                UpsertBasketDto upsertBasketDto,
+                GameStoreContext dbCtx,
+                CancellationToken ct) =>
             {
-                basket = new CustomerBasket
+                var basket = await dbCtx
+                    .CustomerBaskets
+                    .Include(b => b.Items)
+                    .FirstOrDefaultAsync(b => b.Id == userId, cancellationToken: ct);
+
+                if (basket is null)
                 {
-                    Id = userId,
-                    Items = upsertBasketDto.Items
+                    basket = new CustomerBasket
+                    {
+                        Id = userId,
+                        Items = upsertBasketDto.Items
+                            .Select(i => new BasketItem
+                            {
+                                GameId = i.Id,
+                                Quantity = i.Quantity
+                            })
+                            .ToList(),
+                    };
+
+                    dbCtx.CustomerBaskets.Add(basket);
+                }
+                else
+                {
+                    basket.Items = upsertBasketDto.Items
                         .Select(i => new BasketItem
                         {
                             GameId = i.Id,
                             Quantity = i.Quantity
                         })
-                        .ToList(),
-                };
+                        .ToList();
+                }
 
-                dbCtx.CustomerBaskets.Add(basket);
-            }
-            else
-            {
-                basket.Items = upsertBasketDto.Items
-                    .Select(i => new BasketItem
-                    {
-                        GameId = i.Id,
-                        Quantity = i.Quantity
-                    })
-                    .ToList();
-            }
+                await dbCtx.SaveChangesAsync(ct);
 
-            await dbCtx.SaveChangesAsync(ct);
-
-            return Results.NoContent();
-        });
+                return Results.NoContent();
+            })
+            .RequireAuthorization(Policies.UserAccess);
     }
 }
