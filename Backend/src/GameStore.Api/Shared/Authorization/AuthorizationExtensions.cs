@@ -6,7 +6,7 @@ public static class AuthorizationExtensions
         AddGameStoreAuthorization(this IHostApplicationBuilder builder)
     {
         builder.Services.AddAuthorizationBuilder()
-            .AddPolicy(Policies.UserAccess, authBuilder =>
+            .AddFallbackPolicy(Policies.UserAccess, authBuilder =>
             {
                 authBuilder.RequireClaim(Claims.Scope, Claims.ApiAccessScope);
             })
