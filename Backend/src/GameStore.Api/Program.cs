@@ -41,6 +41,10 @@ builder.Services.AddSingleton<FileUploader>();
 
 var app = builder.Build();
 
+app.UseStaticFiles();
+
+app.UseAuthorization();
+
 app.MapGames();
 app.MapGenres();
 app.MapBaskets();
