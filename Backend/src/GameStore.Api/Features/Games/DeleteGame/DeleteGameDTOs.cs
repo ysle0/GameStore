@@ -1,1 +1,3 @@
-namespace GameStore.Api.Features.Games.DeleteGame; 
+namespace GameStore.Api.Features.Games.DeleteGame;
+
+public record DeleteGameDto(Guid Id);

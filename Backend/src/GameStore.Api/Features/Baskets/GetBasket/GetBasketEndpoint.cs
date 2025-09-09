@@ -1,6 +1,6 @@
 using GameStore.Api.Data;
+using GameStore.Api.Features.Games.Constants;
 using GameStore.Api.Models;
-using GameStore.Api.Shared.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Features.Baskets.GetBasket;
@@ -26,7 +26,8 @@ public static class GetBasketEndpoint
                     .ThenInclude(item => item.Game)
                     .FirstOrDefaultAsync(
                         basket => basket.Id == userId,
-                        cancellationToken: ct) ?? new() { Id = userId };
+                        cancellationToken: ct
+                    ) ?? new() { Id = userId };
 
                 var basketDto = new BasketDto(
                     CustomerId: basket.Id,
@@ -45,6 +46,6 @@ public static class GetBasketEndpoint
 
                 return Results.Ok(basketDto);
             })
-            .RequireAuthorization(Policies.UserAccess);
+            .WithName(EndpointNames.GetBasket);
     }
 }

@@ -1,6 +1,6 @@
 using GameStore.Api.Data;
+using GameStore.Api.Features.Games.Constants;
 using GameStore.Api.Models;
-using GameStore.Api.Shared.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Features.Baskets.UpsertBasket;
@@ -52,6 +52,6 @@ public static class UpsertBasketEndpoint
 
                 return Results.NoContent();
             })
-            .RequireAuthorization(Policies.UserAccess);
+            .WithName(EndpointNames.UpsertBasket);
     }
 }

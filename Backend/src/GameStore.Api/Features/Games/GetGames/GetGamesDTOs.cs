@@ -1,5 +1,3 @@
-using System.Drawing;
-
 namespace GameStore.Api.Features.Games.GetGames;
 
 public record GetGamesDto(

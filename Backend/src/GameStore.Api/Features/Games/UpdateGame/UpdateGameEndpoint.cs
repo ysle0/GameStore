@@ -67,6 +67,7 @@ public static class UpdateGameEndpoint
 
                 return Results.NoContent();
             })
+            .WithName(EndpointNames.UpdateGame)
             .WithParameterValidation()
             .DisableAntiforgery()
             .RequireAuthorization(Policies.AdminAccess);

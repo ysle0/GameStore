@@ -1,4 +1,3 @@
-using GameStore.Api.Data;
 using GameStore.Api.Features.Games.CreateGame;
 using GameStore.Api.Features.Games.DeleteGame;
 using GameStore.Api.Features.Games.GetGame;
@@ -7,8 +6,10 @@ using GameStore.Api.Features.Games.UpdateGame;
 
 namespace GameStore.Api.Features.Games;
 
-public static class GamesEndpoint {
-    public static void MapGames(this IEndpointRouteBuilder app) {
+public static class GamesEndpoint
+{
+    public static void MapGames(this IEndpointRouteBuilder app)
+    {
         var group = app.MapGroup("/games");
         group.MapGetGames();
         group.MapGetGame();

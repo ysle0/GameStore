@@ -80,6 +80,7 @@ public static class CreateGameEndpoint
                     gameDetail
                 );
             })
+            .WithName(EndpointNames.CreateGame)
             .WithParameterValidation()
             .DisableAntiforgery()
             .RequireAuthorization(Policies.AdminAccess);
