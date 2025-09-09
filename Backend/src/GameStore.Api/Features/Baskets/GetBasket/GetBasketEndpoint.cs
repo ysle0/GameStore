@@ -1,6 +1,9 @@
+using System.Security.Claims;
 using GameStore.Api.Data;
+using GameStore.Api.Features.Baskets.Authorization;
 using GameStore.Api.Features.Games.Constants;
 using GameStore.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Api.Features.Baskets.GetBasket;
@@ -12,6 +15,8 @@ public static class GetBasketEndpoint
         app.MapGet("/{userId:guid}", async (
                 Guid userId,
                 GameStoreContext dbCtx,
+                IAuthorizationService authSvc,
+                ClaimsPrincipal user,
                 CancellationToken ct
             ) =>
             {
@@ -28,6 +33,19 @@ public static class GetBasketEndpoint
                         basket => basket.Id == userId,
                         cancellationToken: ct
                     ) ?? new() { Id = userId };
+
+                var authRes = await authSvc.AuthorizeAsync(
+                    user,
+                    basket,
+                    new OwnerOrAdminRequirement()
+                );
+
+                if (!authRes.Succeeded)
+                {
+                    return Results.Forbid();
+                }
+                
+                
 
                 var basketDto = new BasketDto(
                     CustomerId: basket.Id,
