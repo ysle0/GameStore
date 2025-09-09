@@ -34,13 +34,7 @@ builder.Services.AddAuthentication()
         opt.MapInboundClaims = false;
         opt.TokenValidationParameters.RoleClaimType = "role";
     });
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy(Policies.UserAccess, authBuilder => { authBuilder.RequireClaim("scope", "gamestore_api.all"); })
-    .AddPolicy(Policies.AdminAccess, authBuilder =>
-    {
-        authBuilder.RequireClaim("scope", "gamestore_api.all");
-        authBuilder.RequireRole(Roles.Admin);
-    });
+builder.AddGameStoreAuthorization();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<FileUploader>();
