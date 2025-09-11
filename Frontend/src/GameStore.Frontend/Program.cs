@@ -1,5 +1,4 @@
 using GameStore.Frontend.Clients;
-using GameStore.Frontend.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
