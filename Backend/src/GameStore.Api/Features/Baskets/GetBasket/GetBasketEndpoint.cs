@@ -1,11 +1,3 @@
-using System.Security.Claims;
-using GameStore.Api.Data;
-using GameStore.Api.Features.Baskets.Authorization;
-using GameStore.Api.Features.Games.Constants;
-using GameStore.Api.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-
 namespace GameStore.Api.Features.Baskets.GetBasket;
 
 public static class GetBasketEndpoint

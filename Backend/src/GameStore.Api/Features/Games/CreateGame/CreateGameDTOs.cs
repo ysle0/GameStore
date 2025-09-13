@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using GameStore.Api.Models;
-
 namespace GameStore.Api.Features.Games.CreateGame;
 
 public record CreateNewGameDto(

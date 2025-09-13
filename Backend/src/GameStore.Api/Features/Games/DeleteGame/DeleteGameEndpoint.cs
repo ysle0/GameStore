@@ -1,8 +1,3 @@
-using GameStore.Api.Features.Games.Constants;
-using GameStore.Api.Shared.Authorization;
-using Microsoft.EntityFrameworkCore;
-using GameStoreContext = GameStore.Api.Data.GameStoreContext;
-
 namespace GameStore.Api.Features.Games.DeleteGame;
 
 public static class DeleteGameEndpoint

@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace GameStore.Api.Features.Games.UpdateGame;
 
 public record UpdateGameDto(

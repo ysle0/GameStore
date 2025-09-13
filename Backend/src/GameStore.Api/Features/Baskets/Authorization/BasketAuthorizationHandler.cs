@@ -1,9 +1,3 @@
-using System.Security.Claims;
-using GameStore.Api.Models;
-using GameStore.Api.Shared.Authorization;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.JsonWebTokens;
-
 namespace GameStore.Api.Features.Baskets.Authorization;
 
 /// <summary>

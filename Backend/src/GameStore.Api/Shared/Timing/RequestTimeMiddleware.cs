@@ -1,8 +1,8 @@
-using System.Diagnostics;
+namespace GameStore.Api.Shared.Timing;
 
-namespace GameStore.Api.Shared;
-
-public class RequestTimeMiddleware(RequestDelegate next)
+public class RequestTimeMiddleware(
+    RequestDelegate next
+)
 {
     public async Task InvokeAsync(
         HttpContext ctx,

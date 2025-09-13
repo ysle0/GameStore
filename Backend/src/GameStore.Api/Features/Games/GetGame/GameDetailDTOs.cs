@@ -1,5 +1,3 @@
-using GameStore.Api.Models;
-
 namespace GameStore.Api.Features.Games.GetGame;
 
 public record GameDetailDto(

@@ -1,11 +1,8 @@
-using System;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Diagnostics;
-
 namespace GameStore.Api.Shared.ErrorHandler;
 
-public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
-    : IExceptionHandler
+public class GlobalExceptionHandler(
+    ILogger<GlobalExceptionHandler> logger
+) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext ctx,
@@ -23,7 +20,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
             statusCode: StatusCodes.Status500InternalServerError,
             extensions: new Dictionary<string, object?>()
             {
-                { "traceId", traceId?.ToString() ?? ""},
+                { "traceId", traceId?.ToString() ?? "" },
             }
         ).ExecuteAsync(ctx);
 

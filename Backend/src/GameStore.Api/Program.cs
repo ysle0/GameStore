@@ -1,15 +1,3 @@
-using GameStore.Api.Data;
-using GameStore.Api.Features.Baskets;
-using GameStore.Api.Features.Baskets.Authorization;
-using GameStore.Api.Features.Games;
-using GameStore.Api.Features.Genres;
-using GameStore.Api.Shared.Authorization;
-using GameStore.Api.Shared.ErrorHandler;
-using GameStore.Api.Shared.FileUpload;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.HttpLogging;
-using GameStoreContext = GameStore.Api.Data.GameStoreContext;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddProblemDetails();

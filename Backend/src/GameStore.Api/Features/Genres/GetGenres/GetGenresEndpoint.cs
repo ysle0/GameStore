@@ -1,7 +1,3 @@
-using GameStore.Api.Features.Games.Constants;
-using Microsoft.EntityFrameworkCore;
-using GameStoreContext = GameStore.Api.Data.GameStoreContext;
-
 namespace GameStore.Api.Features.Genres.GetGenres;
 
 public static class GetGenreEndpoint
