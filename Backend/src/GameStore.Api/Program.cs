@@ -1,3 +1,4 @@
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddProblemDetails();
@@ -18,12 +19,37 @@ builder.Services.AddSqlite<GameStoreContext>(connString);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthentication()
+builder.Services.AddSingleton<KeycloakClaimsTransformer>();
+
+builder.Services.AddAuthentication(Schemes.Keycloak)
     .AddJwtBearer(opt =>
     {
         opt.MapInboundClaims = false;
-        opt.TokenValidationParameters.RoleClaimType = "role";
+        opt.TokenValidationParameters.RoleClaimType =
+            GameStore.Api.Shared.Authorization.ClaimTypes.Role;
+    })
+    .AddJwtBearer(Schemes.Keycloak, opt =>
+    {
+        opt.RequireHttpsMetadata = false;
+        opt.Authority = "http://localhost:8080/realms/gamestore";
+        opt.Audience = "gamestore-api";
+        opt.MapInboundClaims = false;
+        opt.TokenValidationParameters.RoleClaimType =
+            GameStore.Api.Shared.Authorization.ClaimTypes.Role;
+        opt.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+        {
+            OnTokenValidated = ctx =>
+            {
+                var transformer = ctx.HttpContext
+                    .RequestServices
+                    .GetRequiredService<KeycloakClaimsTransformer>();
+                transformer.Transform(ctx);
+
+                return Task.CompletedTask;
+            }
+        };
     });
+
 builder.AddGameStoreAuthorization();
 builder.Services.AddSingleton<IAuthorizationHandler, BasketAuthorizationHandler>();
 
