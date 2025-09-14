@@ -32,7 +32,7 @@ public class KeycloakClaimsTransformer(
 
         foreach (var claim in claims)
         {
-            logger.LogInformation("claim: {ClaimType}, value: {ClaimValue}",
+            logger.LogTrace("claim: {ClaimType}, value: {ClaimValue}",
                 claim.Type,
                 claim.Value
             );
